@@ -108,7 +108,6 @@ end;
 
 procedure Form1.RenderScene();
 begin
-  var k := 0;
   var width := Convert.ToInt32(ClientSize.Width / 8);
   var height := Convert.ToInt32(ClientSize.Height / 8);
   var d3dColor1 := new Color4(Color.Aqua);
@@ -124,19 +123,13 @@ begin
     Invalidate();
   end;
   m_oD3D_Device.Clear(ClearFlags.Target, d3dColor1, 0.0, 0);
-  var i := 0;
-  while (i < 8) do
+  for var k : integer := 0 to 31 do
   begin
-    var j := i mod 2;
-    while (j < 8) do
-    begin 
-      var left := i * width;
-      var top := j * height;
-      rects[k] := new Rectangle(left, top, width, height);
-      k += 1;
-      j += 2;
-    end;
-    i += 1;
+    var i : Integer = k div 4;
+    var j : Integer = (k mod 4) * 2 + (i Mod 2);
+    var Left : Integer = i * Width;
+    var Top : Integer = j * Height;
+    rects[k] := New Rectangle(Left, Top, Width, Height);
   end;
   m_oD3D_Device.Clear(ClearFlags.Target, d3dColor2, 0.0, 0, rects);
   m_oD3D_Device.BeginScene();
